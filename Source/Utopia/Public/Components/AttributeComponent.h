@@ -41,6 +41,8 @@ protected:
 
 private:
 	
+	// Attributes
+
 	UPROPERTY(EditAnywhere, Category = "Attribute")
 	float Health = 100.f;
 
@@ -54,10 +56,11 @@ private:
 	int32 Level = 1;
 
 
-
 public:	
 
-	
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE float GetHealth() const { return Health; }
 
-		
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
 };

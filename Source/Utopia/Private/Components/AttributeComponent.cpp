@@ -2,6 +2,7 @@
 
 
 #include "Components/AttributeComponent.h"
+#include "Components/WidgetComponent.h"
 
 
 UAttributeComponent::UAttributeComponent()
@@ -12,16 +13,29 @@ UAttributeComponent::UAttributeComponent()
 
 }
 
+void UAttributeComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+}
+
+
+void UAttributeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+}
 
 
 void UAttributeComponent::TakeDamage(float DamageAmount)
 {
-	Health = FMath::Clamp(Health - DamageAmount, 0.f, MaxHealth);
+	Health = FMath::Clamp(Health - DamageAmount, 0.f, MaxHealth);	
 
 	OnDamageTakenDelegate.Broadcast();
 
 	if (!IsAlive())
 	{
+
 		OnDeahtDelegate.Broadcast();
 	}
 }
@@ -35,21 +49,3 @@ bool UAttributeComponent::IsAlive()
 {
 	return Health > 0.f;
 }
-
-void UAttributeComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	
-	
-}
-
-
-
-void UAttributeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-
-}
-

@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "UtopBaseCharacter.generated.h"
 
+class UWidgetComponent;
+class UDecalComponent;
+
 UCLASS()
 class UTOPIA_API AUtopBaseCharacter : public ACharacter
 {
@@ -21,9 +24,19 @@ protected:
 
 	virtual void BeginPlay() override;
 
+	UPROPERTY(VisibleAnywhere, Category = "UI")
+	TObjectPtr<UWidgetComponent> CharacterInfoWidget;
+
+	UFUNCTION(BlueprintCallable)
+	void ShowInfoWidget();
+
+	UFUNCTION(BlueprintCallable)
+	void HideInfoWidget();
+
 private:	
 
-
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UDecalComponent> Decal;
 
 
 };

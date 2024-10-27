@@ -21,7 +21,5 @@ protected:
 
 private:
 
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UDecalComponent> Decal;
 	
 };
