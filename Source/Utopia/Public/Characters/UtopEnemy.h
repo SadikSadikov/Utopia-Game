@@ -13,5 +13,15 @@ UCLASS()
 class UTOPIA_API AUtopEnemy : public AUtopBaseCharacter
 {
 	GENERATED_BODY()
+
+public:
+
+protected:
+
+	virtual void BeginPlay() override;
+
+private:
+
+
 	
 };

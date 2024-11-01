@@ -3,3 +3,9 @@
 
 #include "Characters/UtopEnemy.h"
 
+void AUtopEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Tags.Add("Enemy");
+}

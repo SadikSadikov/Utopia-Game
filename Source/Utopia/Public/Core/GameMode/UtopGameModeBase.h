@@ -105,8 +105,6 @@ public:
 
 	void BeginAsyncSpawningCompleted();
 
-	void SpawnVillager();
-
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<USoundControlBus> NewMapBus;
 
@@ -121,6 +119,13 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SpawnVillagers(int32 Add);
+
+	UFUNCTION(BlueprintCallable)
+	void SpawnCharacters(int32 Add, TSubclassOf<AUtopBaseCharacter> CharacterClass, AActor* CharacterHouse, float Radius);
+
+	void SpawnVillager();
+
+	void SpawnCharacter(TSubclassOf<AUtopBaseCharacter> CharacterClass, AActor* CharacterHouse, float Radius);
 
 	UPROPERTY(EditAnywhere, Category = "Default")
 	int32 NumberOfVillagers = 0;

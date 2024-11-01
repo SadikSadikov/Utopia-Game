@@ -8,3 +8,10 @@
 AUtopCharacter::AUtopCharacter()
 {
 }
+
+void AUtopCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Tags.Add("Character");
+}

@@ -22,6 +22,7 @@
 #include "Utopia/PrintStrings.h"
 #include "Core/Save/GameInstanceInterface.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Characters/UtopBaseCharacter.h"
 
 AUtopGameModeBase::AUtopGameModeBase()
 {
@@ -271,32 +272,6 @@ void AUtopGameModeBase::BeginAsyncSpawningCompleted()
 
 }
 
-void AUtopGameModeBase::SpawnVillager() 
-{
-	FVector Origin;
-	FVector BoxExtend;
-	
-	if (TownHall)
-	{
-		TownHall->GetActorBounds(false, Origin, BoxExtend);
-		FVector CalcTownHallOrigin(Origin + (UKismetMathLibrary::RandomUnitVector() * FMath::Min(BoxExtend.X, BoxExtend.Y) * 2.f));
-
-		UNavigationSystemV1* NavSys = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
-
-		if (NavSys)
-		{
-			FNavLocation RandomLocation;
-
-			NavSys->GetRandomReachablePointInRadius(FVector(CalcTownHallOrigin.X, CalcTownHallOrigin.Y, 0.f), 500.f, RandomLocation);
-
-			UAIBlueprintHelperLibrary::SpawnAIFromClass(GetWorld(), VillagerRef, nullptr, RandomLocation.Location);
-
-			VillagerCount++;
-		}
-	}
-
-}
-
 void AUtopGameModeBase::EndGame(bool bWin)
 {
 	if (!bGameEnded)
@@ -327,6 +302,66 @@ void AUtopGameModeBase::SpawnVillagers(int32 Add)
 	if (UGameplayStatics::GetGameInstance(this)->Implements<UGameInstanceInterface>())
 	{
 		IGameInstanceInterface::Execute_UpdateAllVillagers(UGameplayStatics::GetGameInstance(this));
+	}
+}
+
+void AUtopGameModeBase::SpawnVillager()
+{
+	FVector Origin;
+	FVector BoxExtend;
+
+	if (TownHall)
+	{
+		TownHall->GetActorBounds(false, Origin, BoxExtend);
+		FVector CalcTownHallOrigin(Origin + (UKismetMathLibrary::RandomUnitVector() * FMath::Min(BoxExtend.X, BoxExtend.Y) * 2.f));
+
+		UNavigationSystemV1* NavSys = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
+
+		if (NavSys)
+		{
+			FNavLocation RandomLocation;
+
+			NavSys->GetRandomReachablePointInRadius(FVector(CalcTownHallOrigin.X, CalcTownHallOrigin.Y, 0.f), 500.f, RandomLocation);
+
+			UAIBlueprintHelperLibrary::SpawnAIFromClass(GetWorld(), VillagerRef, nullptr, RandomLocation.Location);
+
+			VillagerCount++;
+		}
+	}
+
+}
+
+void AUtopGameModeBase::SpawnCharacters(int32 Add, TSubclassOf<AUtopBaseCharacter> CharacterClass, AActor* CharacterHouse, float Radius)
+{
+	for (int32 i = 1; i < Add; i++)
+	{
+		SpawnCharacter(CharacterClass, CharacterHouse, Radius);
+	}
+}
+
+void AUtopGameModeBase::SpawnCharacter(TSubclassOf<AUtopBaseCharacter> CharacterClass, AActor* CharacterHouse, float Radius)
+{
+	if (CharacterClass && CharacterHouse)
+	{
+		FVector Origin;
+		FVector BoxExtend;
+
+		CharacterHouse->GetActorBounds(false, Origin, BoxExtend);
+
+		FVector CalcRandomPoints(Origin + (UKismetMathLibrary::RandomUnitVector() * FMath::Min(BoxExtend.X, BoxExtend.Y) * 2.f));
+
+		UNavigationSystemV1* NavSys = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
+
+		if (NavSys)
+		{
+			FNavLocation RandomLocation;
+
+			NavSys->GetRandomReachablePointInRadius(FVector(CalcRandomPoints.X, CalcRandomPoints.Y, 0.f), Radius, RandomLocation);
+
+			UAIBlueprintHelperLibrary::SpawnAIFromClass(GetWorld(), CharacterClass, nullptr, RandomLocation.Location);;
+		}
+
+
 	}
 }
 

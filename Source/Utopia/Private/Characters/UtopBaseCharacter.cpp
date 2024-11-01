@@ -20,6 +20,10 @@ AUtopBaseCharacter::AUtopBaseCharacter()
 	CharacterInfoWidget = CreateDefaultSubobject<UWidgetComponent>("WidgetComp");
 	CharacterInfoWidget->SetupAttachment(GetRootComponent());
 
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = true;
+
 }
 
 void AUtopBaseCharacter::BeginPlay()
