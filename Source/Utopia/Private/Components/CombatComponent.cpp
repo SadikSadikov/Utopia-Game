@@ -3,6 +3,8 @@
 
 #include "Components/CombatComponent.h"
 #include "Characters/UtopBaseCharacter.h"
+#include "Item/Weapon/UtopWeapon.h"
+#include "Components/SphereComponent.h"
 
 UCombatComponent::UCombatComponent()
 {
@@ -27,6 +29,19 @@ void UCombatComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (WeaponParams.Num() > 0)
+	{
+		if (AUtopBaseCharacter* Owner = Cast<AUtopBaseCharacter>(GetOwner()))
+		{
+			for (const auto& WeaponParam : WeaponParams)
+			{
+				AUtopWeapon* WeaponObject = GetWorld()->SpawnActor<AUtopWeapon>(WeaponParam.WeaponClass);
+				WeaponObject->Equip(Owner->GetMesh(), WeaponParam.SocketName, Owner, Owner);
+				EquippedWeapon.Add(WeaponObject);
+			}
+		}
+		
+	}
 	
 	
 }

@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "UtopBaseCharacterInterface.generated.h"
+#include "DamageableInterface.generated.h"
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
-class UUtopBaseCharacterInterface : public UInterface
+class UDamageableInterface : public UInterface
 {
 	GENERATED_BODY()
 };
@@ -16,10 +16,16 @@ class UUtopBaseCharacterInterface : public UInterface
 /**
  * 
  */
-class UTOPIA_API IUtopBaseCharacterInterface
+class UTOPIA_API IDamageableInterface
 {
 	GENERATED_BODY()
 
-	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+
+	UFUNCTION(BlueprintNativeEvent)
+	void HitToReact(const FVector& ImpactPoint, AActor* Hitter);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void OnDeath();
+
 };

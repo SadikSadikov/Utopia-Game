@@ -5,6 +5,8 @@
 #include "Components/WidgetComponent.h"
 #include "Components/DecalComponent.h"
 #include "UI/UtopUserWidget.h"
+#include "Components/AttributeComponent.h"
+#include "Components/CombatComponent.h"
 
 
 AUtopBaseCharacter::AUtopBaseCharacter()
@@ -30,6 +32,8 @@ void AUtopBaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	HideInfoWidget();
+
 	if (UUtopUserWidget* UtopUserWidget = Cast<UUtopUserWidget>(CharacterInfoWidget->GetUserWidgetObject()))
 	{
 		UtopUserWidget->SetWidgetOwner(this);
@@ -54,10 +58,45 @@ void AUtopBaseCharacter::HideInfoWidget()
 	}
 }
 
+UAttributeComponent* AUtopBaseCharacter::GetAttributeComponent()
+{
+	if (AttributeComponent == nullptr)
+	{
+		AttributeComponent = GetComponentByClass<UAttributeComponent>();
+	}
+
+	return AttributeComponent;
+}
+
+UCombatComponent* AUtopBaseCharacter::GetCombatComponent()
+{
+	if (CombatComponent == nullptr)
+	{
+		CombatComponent = GetComponentByClass<UCombatComponent>();
+	}
+
+	return CombatComponent;
+}
+
 void AUtopBaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AUtopBaseCharacter::HitToReact_Implementation(const FVector& ImpactPoint, AActor* Hitter)
+{
+
+	if (GetAttributeComponent())
+	{
+		ShowInfoWidget();
+
+		GetAttributeComponent()->TakeDamage(GetCombatComponent()->GetDamageAmount());
+	}
+}
+
+void AUtopBaseCharacter::OnDeath_Implementation()
+{
 }
 
 
