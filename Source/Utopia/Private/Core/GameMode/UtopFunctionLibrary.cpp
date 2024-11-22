@@ -3,6 +3,10 @@
 
 #include "Core/GameMode/UtopFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "Core/GameMode/UtopGameInstance.h"
+#include "Core/GameMode/UtopGameModeBase.h"
+#include "Components/AttributeComponent.h"
+#include "Components/CombatComponent.h"
 
 FVector UUtopFunctionLibrary::SteppedPosition(const FVector& NewParam)
 {
@@ -17,4 +21,22 @@ AUtopGameModeBase* UUtopFunctionLibrary::GetUtopGameMode(UObject* WorldContextOb
 UUtopGameInstance* UUtopFunctionLibrary::GetUtopGameInstance(UObject* WorldContextObject)
 {
 	return Cast<UUtopGameInstance>(UGameplayStatics::GetGameInstance(WorldContextObject));
+}
+
+UCombatComponent* UUtopFunctionLibrary::GetCombatComponentByClass(AActor* Owner)
+{
+	if (Owner)
+	{
+		return Owner->GetComponentByClass<UCombatComponent>();
+	}
+	return nullptr;
+}
+
+UAttributeComponent* UUtopFunctionLibrary::GetAttributeComponentByClass(AActor* Owner)
+{
+	if (Owner)
+	{
+		Owner->GetComponentByClass<UAttributeComponent>();
+	}
+	return nullptr;
 }

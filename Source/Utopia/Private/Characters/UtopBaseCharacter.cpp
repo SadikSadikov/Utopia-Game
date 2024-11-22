@@ -8,6 +8,9 @@
 #include "Components/AttributeComponent.h"
 #include "Components/CombatComponent.h"
 
+#include "DrawDebugHelpers.h"
+#include "Utopia/PrintStrings.h"
+
 
 AUtopBaseCharacter::AUtopBaseCharacter()
 {
@@ -27,6 +30,8 @@ AUtopBaseCharacter::AUtopBaseCharacter()
 	bUseControllerRotationYaw = true;
 
 }
+
+
 
 void AUtopBaseCharacter::BeginPlay()
 {
@@ -84,19 +89,24 @@ void AUtopBaseCharacter::Tick(float DeltaTime)
 
 }
 
-void AUtopBaseCharacter::HitToReact_Implementation(const FVector& ImpactPoint, AActor* Hitter)
+void AUtopBaseCharacter::GetHit_Implementation(const FVector& ImpactPoint, AActor* Hitter)
 {
+	ShowInfoWidget();
 
-	if (GetAttributeComponent())
+	if (GetAttributeComponent() && GetCombatComponent())
 	{
-		ShowInfoWidget();
+		GetAttributeComponent()->TakeDamage(Hitter->GetComponentByClass<UCombatComponent>()->GetDamageAmount());
 
-		GetAttributeComponent()->TakeDamage(GetCombatComponent()->GetDamageAmount());
+		if (GetAttributeComponent()->IsAlive())
+		{
+			GetCombatComponent()->ReactToHit(ImpactPoint);
+		}
+		else
+		{
+			GetCombatComponent()->OnDeath();
+
+		}
 	}
-}
-
-void AUtopBaseCharacter::OnDeath_Implementation()
-{
 }
 
 

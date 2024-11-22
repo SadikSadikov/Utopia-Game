@@ -23,15 +23,18 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+
 	/* Damageable Interace */
 
-	virtual void HitToReact_Implementation(const FVector& ImpactPoint, AActor* Hitter) override;
-
-	virtual void OnDeath_Implementation() override;
+	virtual void GetHit_Implementation(const FVector& ImpactPoint, AActor* Hitter) override;
 
 	/* end Damageable Interace */
 
+
+
 protected:
+
+
 
 	virtual void BeginPlay() override;
 
@@ -44,11 +47,7 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void HideInfoWidget();
 
-	UPROPERTY()
-	UAttributeComponent* AttributeComponent;
 
-	UPROPERTY()
-	UCombatComponent* CombatComponent;
 
 
 
@@ -56,6 +55,13 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UDecalComponent> Decal;
+
+	UPROPERTY()
+	UAttributeComponent* AttributeComponent;
+
+	UPROPERTY()
+	UCombatComponent* CombatComponent;
+
 
 public:
 

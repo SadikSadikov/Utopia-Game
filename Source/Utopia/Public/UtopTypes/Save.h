@@ -15,7 +15,7 @@ public:
 	FSaveInteract(){}
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	FTransform Location = FTransform();
+	FTransform Location = FTransform(FRotator::ZeroRotator, FVector::ZeroVector, FVector::ZeroVector);
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<AUtopBaseInteractable> Type = nullptr;
@@ -40,7 +40,7 @@ public:
 	FVillager() {}
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	FVector Location = FVector();
+	FVector Location = FVector::ZeroVector;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FName Task = FName();

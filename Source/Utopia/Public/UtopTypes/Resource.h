@@ -40,6 +40,6 @@ public:
 	TMap<EResourceType, int32> Cost = TMap<EResourceType, int32>();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FColor TabColor = FColor();
+	FColor TabColor = FColor::Blue;
 
 };

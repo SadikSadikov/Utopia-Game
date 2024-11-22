@@ -9,7 +9,8 @@ public class Utopia : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput",
-			"Niagara", "NavigationSystem", "UMG", "AIModule", "CommonUI", "AudioModulation", "GameplayTags"});
+			"Niagara", "NavigationSystem", "UMG", "AIModule", "CommonUI", "AudioModulation", "GameplayTags", "FieldSystemEngine",
+            "GeometryCollectionEngine", "Chaos", "ChaosSolverEngine"});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

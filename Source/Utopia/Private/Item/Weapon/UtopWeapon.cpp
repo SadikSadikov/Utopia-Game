@@ -5,6 +5,7 @@
 #include "Components/BoxComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Utopia/PrintStrings.h"
+#include "Characters/Interfaces/DamageableInterface.h"
 
 AUtopWeapon::AUtopWeapon()
 {
@@ -26,7 +27,7 @@ void AUtopWeapon::Equip(USceneComponent* InParent, FName InSocketName, AActor* I
 {
 	SetOwner(InOwner);
 	SetInstigator(InInstigator);
-	AttackMeshToSocket(InParent, InSocketName);
+	AttachMeshToSocket(InParent, InSocketName);
 
 
 	ItemMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -39,11 +40,13 @@ void AUtopWeapon::SetWeaponBoxCollisionEnabled(ECollisionEnabled::Type NewCollis
 
 void AUtopWeapon::BeginPlay()
 {
+	Super::BeginPlay();
+
 	WeaponBox->OnComponentBeginOverlap.AddDynamic(this, &AUtopWeapon::OnWeaponBoxOverlap);
 
 }
 
-void AUtopWeapon::AttackMeshToSocket(USceneComponent* InParent, FName InSocketName)
+void AUtopWeapon::AttachMeshToSocket(USceneComponent* InParent, FName InSocketName)
 {
 	FAttachmentTransformRules TransfromRules(EAttachmentRule::SnapToTarget, true);
 
@@ -74,6 +77,11 @@ void AUtopWeapon::OnWeaponBoxOverlap(UPrimitiveComponent* OverlappedComponent, A
 	if (HitResult.GetActor())
 	{
 		printf("Hitten Actor is: %s", *HitResult.GetActor()->GetName());
+
+		if (HitResult.GetActor()->Implements<UDamageableInterface>())
+		{
+			IDamageableInterface::Execute_GetHit(HitResult.GetActor(), HitResult.ImpactPoint, GetOwner());
+		}
 	}
 
 	IgnoreActor.AddUnique(HitResult.GetActor());

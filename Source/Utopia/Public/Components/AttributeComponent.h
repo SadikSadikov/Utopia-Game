@@ -40,6 +40,7 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+
 	
 	// Attributes
 

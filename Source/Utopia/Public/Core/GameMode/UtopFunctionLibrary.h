@@ -8,6 +8,8 @@
 
 class AUtopGameModeBase;
 class UUtopGameInstance;
+class UCombatComponent;
+class UAttributeComponent;
 
 UCLASS()
 class UTOPIA_API UUtopFunctionLibrary : public UBlueprintFunctionLibrary
@@ -19,11 +21,17 @@ public:
 	UFUNCTION(BlueprintPure)
 	static FVector SteppedPosition(const FVector& NewParam);
 
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, meta = (DefaultToSelf = "WorldContextObject"))
 	static AUtopGameModeBase* GetUtopGameMode(UObject* WorldContextObject);
 
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, meta = (DefaultToSelf = "WorldContextObject"))
 	static UUtopGameInstance* GetUtopGameInstance(UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintPure)
+	static UCombatComponent* GetCombatComponentByClass(AActor* Owner);
+
+	UFUNCTION(BlueprintPure)
+	static UAttributeComponent* GetAttributeComponentByClass(AActor* Owner);
 
 	
 };

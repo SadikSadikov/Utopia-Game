@@ -23,9 +23,7 @@ class UTOPIA_API IDamageableInterface
 public:
 
 	UFUNCTION(BlueprintNativeEvent)
-	void HitToReact(const FVector& ImpactPoint, AActor* Hitter);
+	void GetHit(const FVector& ImpactPoint, AActor* Hitter);
 
-	UFUNCTION(BlueprintNativeEvent)
-	void OnDeath();
 
 };
