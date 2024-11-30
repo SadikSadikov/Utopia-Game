@@ -11,6 +11,7 @@
 #include "GeometryCollection/GeometryCollectionComponent.h"
 #include "Chaos/ChaosGameplayEventDispatcher.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "NiagaraFunctionLibrary.h"
 
 #include "Utopia/PrintStrings.h"
@@ -55,6 +56,11 @@ void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 
+}
+
+void UCombatComponent::Attack()
+{
+	PlayAttackMontage();
 }
 
 AActor* UCombatComponent::GetCombatTarget()
@@ -162,7 +168,6 @@ void UCombatComponent::DirectionalHitReact(const FVector& ImpactPoint)
 		Theta *= -1.f;
 	}
 
-	printf("Theta - %f", Theta);
 
 	FName SectionName("FromBack");
 
@@ -320,11 +325,6 @@ void UCombatComponent::PlayRandomMontageSection(UAnimMontage* Montage, const TAr
 	const int32 Selection = FMath::RandRange(0, SectionNames.Num() - 1);
 
 	PlayMontageSection(Montage, SectionNames[Selection]);
-}
-
-void UCombatComponent::Attack()
-{
-	PlayAttackMontage();
 }
 
 
